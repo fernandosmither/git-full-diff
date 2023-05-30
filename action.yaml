@@ -1,23 +1,21 @@
-name: 'Hello World'
-description: 'Greet someone'
+name: 'Git full diff'
+description: 'Get the full diff of a git commit as usable output'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
-    required: true
-    default: 'World'
+  original-commit:  # id of input
+    description: 'The sha1 of the commit to diff against. Defaults to HEAD^'
+    required: false
+    default: 'HEAD^'
 outputs:
-  random-number:
-    description: "Random number"
-    value: ${{ steps.random-number-generator.outputs.random-number }}
+  diff:
+    description: "The full diff of the HEAD commit against original-commit"
+    value: ${{ steps.get-git-diff.outputs.diff }}
 runs:
   using: "composite"
   steps:
-    - run: echo Hello ${{ inputs.who-to-greet }}.
+    - run: echo The provided SHA1 is "${{ inputs.who-to-greet }}".
       shell: bash
-    - id: random-number-generator
-      run: echo "random-number=$(echo $RANDOM)" >> $GITHUB_OUTPUT
-      shell: bash
-    - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
-      shell: bash
-    - run: goodbye.sh
+    - id: get-git-diff
+      run: |
+        echo "diff=$(git diff ${{ inputs.original-commit }} --unified=0 | grep '^+' | grep -v '+++' | sed 's/^+//' | perl -pe '$_ = "" if 0 == $n++ && /^$/')"
+        echo "random-number=$(echo $RANDOM)" >> $GITHUB_OUTPUT
       shell: bash
