@@ -8,8 +8,12 @@ Right now, it only supports getting the added text on modified files, without an
 To use it, you can simply add the following line on your GitHub Actions steps:
 `uses: fernandosmither/git-full-diff@<TAG>`
 
+Then, you can access your diff with `${{ steps.<step_id>.outputs.diff }}`
+
 Make sure to change TAG with the desired version. Eg: `git-full-diff@v1.0.0`
 ### Usage example:
+> This example gets the full diff and outputs it.
+
 .github/workflows/main.yaml:
 ```
 on: [push]
@@ -22,9 +26,18 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - uses: fernandosmither/git-full-diff@v1.3.2
+      - id: git-full-diff
+        uses: fernandosmither/git-full-diff@v1.0.2
+      - name: display diff
+        run: |
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          cat <<$EOF
+          ${{ steps.git-full-diff.outputs.diff }}
+          $EOF
+        shell: bash
 ```
-**To use this action, you must also invoke actions/checkout before with the tag fetch-depth: 0, as actions/checkout gives you by default a grafted git history only with the latest commit.**
+* **To use this action, you must also invoke actions/checkout before with the tag fetch-depth: 0, as actions/checkout gives you by default a grafted git history only with the latest commit.**
+* You could simply display the output with `echo ${{ steps.git-full-diff.outputs.diff }}`. However, since in this case (and also probably yours) `${{ steps.git-full-diff.outputs.diff }}` is a multiline string you cannot simply echo it. The code example shows the cleanest way I found to accomplish this. If you have any suggestions to improve the code, let me know in an Issue!
 
 
 For example:
