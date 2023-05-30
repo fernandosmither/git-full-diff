@@ -1,5 +1,9 @@
 name: 'Git full diff'
+author: 'Fernandosmither'
 description: 'Get the full diff of a git commit as usable output'
+branding:
+  icon: file-text
+  color: green
 inputs:
   original-commit:
     description: 'The sha1 of the commit to diff against. Defaults to HEAD^'
