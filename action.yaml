@@ -12,10 +12,11 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - run: echo The provided SHA1 is "${{ inputs.who-to-greet }}".
+    - run: echo The provided SHA1 is "${{ inputs.original-commit }}".
       shell: bash
     - id: get-git-diff
       run: |
-        echo "diff=$(git diff ${{ inputs.original-commit }} --unified=0 | grep '^+' | grep -v '+++' | sed 's/^+//' | perl -pe '$_ = "" if 0 == $n++ && /^$/')"
+        echo glod = git log --graph --pretty='\''%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset'\
+        echo "diff=$(git diff ${{ inputs.original-commit }} --unified=0 | grep '^+' | grep -v '+++' | sed 's/^+//')"
         echo "random-number=$(echo $RANDOM)" >> $GITHUB_OUTPUT
       shell: bash
