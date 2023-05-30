@@ -14,7 +14,7 @@ runs:
   steps:
     - run: echo The provided SHA1 is "${{ inputs.original-commit }}".
       shell: bash
-    - run: echo git log --graph --pretty='\''%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset'\
+    - run: git log --graph --pretty='\''%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset'
       shell: bash
     - id: get-git-diff
       run: |
