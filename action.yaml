@@ -14,9 +14,9 @@ runs:
   steps:
     - run: echo The provided SHA1 is "${{ inputs.original-commit }}".
       shell: bash
+    - run: echo git log --graph --pretty='\''%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset'\
     - id: get-git-diff
       run: |
-        echo glod = git log --graph --pretty='\''%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset'\
         echo "diff=$(git diff ${{ inputs.original-commit }} --unified=0 | grep '^+' | grep -v '+++' | sed 's/^+//')"
         echo "random-number=$(echo $RANDOM)" >> $GITHUB_OUTPUT
       shell: bash
