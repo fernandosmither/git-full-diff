@@ -8,7 +8,7 @@ Right now, it only supports getting the added text on modified files, without an
 To use it, you can simply add the following line on your GitHub Actions steps:
 `uses: fernandosmither/git-full-diff@<TAG>`
 
-Make sure to change TAG with the desired version. Eg: `git-full-diff@v1.3.2`
+Make sure to change TAG with the desired version. Eg: `git-full-diff@v1.0.0`
 ### Usage example:
 .github/workflows/main.yaml:
 ```
