@@ -16,5 +16,5 @@ runs:
       shell: bash
     - id: get-git-diff
       run: |
-        echo "diff=$(git diff ${{ inputs.original-commit }} --unified=0 | grep '^+' | grep -v '+++' | sed 's/^+//')" >> $GITHUB_OUTPUT
+        echo "diff=$(git diff ${{ inputs.original-commit }} --unified=0 | grep '^+' | grep -v '+++' | sed 's/^+//')" >> "$GITHUB_OUTPUT"
       shell: bash
