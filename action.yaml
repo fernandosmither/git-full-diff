@@ -1,7 +1,7 @@
 name: 'Git full diff'
 description: 'Get the full diff of a git commit as usable output'
 inputs:
-  original-commit:  # id of input
+  original-commit:
     description: 'The sha1 of the commit to diff against. Defaults to HEAD^'
     required: false
     default: 'HEAD^'
@@ -14,10 +14,7 @@ runs:
   steps:
     - run: echo The provided SHA1 is "${{ inputs.original-commit }}".
       shell: bash
-    - run: git log --graph --pretty='\''%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset'
-      shell: bash
     - id: get-git-diff
       run: |
-        echo "diff=$(git diff ${{ inputs.original-commit }} --unified=0 | grep '^+' | grep -v '+++' | sed 's/^+//')"
-        echo "random-number=$(echo $RANDOM)" >> $GITHUB_OUTPUT
+        echo "diff=$(git diff ${{ inputs.original-commit }} --unified=0 | grep '^+' | grep -v '+++' | sed 's/^+//')" >> $GITHUB_OUTPUT
       shell: bash
